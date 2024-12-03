@@ -36,13 +36,20 @@ def show_layout():
 @app.route('/page/show')
 def show_page():
     id = request.args.get('id', 1)
-    sql = '''   SELECT * FROM destination
-                JOIN page ON destination.page_d = page.id_page
-                WHERE page.num_livre=%s
+
+    sql = '''   SELECT * FROM page
+                WHERE num_livre=%s
                 ORDER BY num_page;
                 '''
     pages = cursorSQL(sql, id)
-    return render_template('page/page_show.html', pages=pages)
+
+    sql = '''   SELECT * FROM page
+                JOIN destination ON destination.page_d = page.id_page
+                WHERE num_livre=%s
+                ORDER BY num_page;
+                '''
+    pagesDst = cursorSQL(sql, id)
+    return render_template('page/page_show.html', pages=pages, pagesDst=pagesDst)
 
 #-------------------------------------------------------------------------------#
 
