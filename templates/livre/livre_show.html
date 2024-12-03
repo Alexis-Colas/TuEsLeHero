@@ -1,5 +1,41 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    Livre
+    <h3>Liste des livres</h3>
+
+    <a type="button" class="btn btn-light"
+       href="{{ '/livre/add' }}">
+        Ajouter un livre
+    </a>
+
+    <table class="table table-striped table-hover" style="margin-top:20px">
+        <thead>
+        <tr class="table-success">
+            <th>Nom</th>
+            <th>Opérations</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.nom_livre }}</td>
+                <td>
+                    <a type="button" class="btn btn-secondary"
+                       href="{{ '/livre/edit?id=' }}{{ livre.num_livre }}">
+                        Editer
+                    </a>
+                    <a type="button" class="btn btn-warning"
+                       href="{{ '/livre/delete?id=' }}{{ livre.num_livre }}">
+                        Supprimer
+                    </a>
+                    <a type="button" class="btn btn-primary"
+                       href="{{ '/page/show?id=' }}{{ livre.num_livre }}">
+                        Voir
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -1,5 +1,43 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    Page
+    <h3>Liste des pages</h3>
+
+    <a type="button" class="btn btn-light"
+       href="{{ '/page/add' }}">
+        Ajouter une page
+    </a>
+
+    <table class="table table-striped table-hover" style="margin-top:20px">
+        <thead>
+        <tr class="table-success">
+            <th>Numéro Page</th>
+            <th>Dst</th>
+            <th>Opérations</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.num_page }}</td>
+                <td>{{ page.page_a }}</td>
+                <td>
+                    <a type="button" class="btn btn-secondary"
+                       href="{{ '/page/edit?id=' }}{{ page.id_page }}">
+                        Editer
+                    </a>
+                    <a type="button" class="btn btn-warning"
+                       href="{{ '/page/delete?id=' }}{{ page.id_page }}">
+                        Supprimer
+                    </a>
+                    <a type="button" class="btn btn-primary"
+                       href="{{ '/page/voir?id=' }}{{ page.id_page }}">
+                        Voir
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
