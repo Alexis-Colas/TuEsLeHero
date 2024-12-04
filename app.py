@@ -37,19 +37,17 @@ def show_layout():
 def show_page():
     id = request.args.get('id', 1)
 
-    sql = '''   SELECT * FROM page
-                WHERE num_livre=%s
-                ORDER BY num_page;
+    sql = '''   SELECT pd.num_page AS d, pa.num_page AS a
+                FROM destination dst
+                JOIN page pd ON dst.page_d = pd.id_page
+                JOIN page pa ON dst.page_a = pa.id_page
+                WHERE pd.num_livre=%s;
                 '''
     pages = cursorSQL(sql, id)
-
-    sql = '''   SELECT * FROM page
-                JOIN destination ON destination.page_d = page.id_page
-                WHERE num_livre=%s
-                ORDER BY num_page;
-                '''
-    pagesDst = cursorSQL(sql, id)
-    return render_template('page/page_show.html', pages=pages, pagesDst=pagesDst)
+    routePages = {}
+    for page in pages:
+        routePages.setdefault(page["d"], []).append(page["a"])
+    return render_template('page/page_show.html', pages=pages, id=id)
 
 #-------------------------------------------------------------------------------#
 
